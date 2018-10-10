@@ -1,0 +1,33 @@
+{
+	"standard": "1",
+	"pages": {
+		// 시작
+		"start": {
+			"type": "cover",
+			"background": "example-pictures/sunset.jpg",
+			"title": "시작",
+			"body": "<font size=\"80\">시작</font><br><br>모두 자리에 앉아주시기 바랍니다"
+		},
+		
+		// 본문
+		"bon": {
+			"type": "note",
+			"background": "example-pictures/sunset.jpg",
+			"title": "본문",
+			"body": "<font color=\"#ff0000\"><b>(본문)</b></font><br>그런 거 없다<br>없다니까"
+		},
+		
+		// 봉인된 본문
+		/*"sealed_one": {
+			"type": "note",
+			"background": "example-pictures/sunset.jpg",
+			"title": "봉인된 본문",
+			"body": "이 편지는 영국에서 시작되었ㄴㅇ러ㅗ져ㅑ뱌ㅗㅅ샤ㅐㅕ2ㅗ샤ㅕ2ㅈ두ㅑㅕ호"
+		},*/
+		
+		"r1": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": " ", "body": " "},
+		"r2": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": "제목과", "body": "본문"},
+		"r3": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": "제목과", "body": " "},
+		"r4": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": " ", "body": "본문이라고"}
+	}
+}

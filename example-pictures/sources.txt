@@ -1,0 +1,10 @@
+sunset.jpg:
+	- site: https://pixabay.com/en/sun-setting-sky-sunset-nature-3726030/
+	- author: kordi_vahle (https://pixabay.com/en/users/kordi_vahle-4934524/)
+	- license: CC0 (https://creativecommons.org/publicdomain/zero/1.0/deed.en)
+	
+web.jpg:
+	- site: https://pixabay.com/en/spider-web-drops-water-drops-rain-3060448/
+	- author: ekamelev (https://pixabay.com/en/users/ekamelev-7515128/)
+	- license: CC0 (https://creativecommons.org/publicdomain/zero/1.0/deed.en)
+	
