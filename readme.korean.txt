@@ -1,14 +1,13 @@
 Silverscreen.py - 경량의 프레젠테이션 프로그램
 
-Version 0.0.1
+Version 0.0.2
 
-Copyright (C) 2018 Minho Jo <whitestone8214@gmail.com>
+Copyright (C) 2018-2019 Minho Jo <whitestone8214@gmail.com>
 
 License: GNU General Public License version 3 (이후 버전 적용 가능) (license.txt 참고)
 
 필요한 것:
-	- Python 3.x (3.7.0에서 정상 동작합니다)
-		- 2.x는 지원하지 않습니다.
+	- Python 3.x (3.7.0에서 정상 동작을 확인했으며, 2.x는 지원하지 않습니다)
 	- 특별히 개조된 Pyglet ( git clone https://github.com/whitestone8214/pyglet-1.3.0-mod pyglet )
 		- 원본 Pyglet ( https://bitbucket.org/pyglet/pyglet/overview ) 의 경우 사용 가능은 하겠으나 폰트 크기, 수직 레이아웃 등 몇 가지 측면에서 제약이 있습니다.
 	- pyjson5 ( git clone https://github.com/dpranke/pyjson5 )

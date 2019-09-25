@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-	Copyright (C) 2018 Minho Jo <whitestone8214@gmail.com>
+	Copyright (C) 2018-2019 Minho Jo <whitestone8214@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ _windowMain.redraw = False
 # Main window
 _windowMain.standard = 0
 _windowMain.inputStacked = ''
+_windowMain.nEscPressed = 0
 _dictPages = None
 
 # Load session
@@ -56,8 +57,6 @@ if 'standard' in _sheet: _windowMain.standard = _sheet['standard']
 if 'pages' not in _sheet: raise Exception('No pages to show')
 _dictPages = _sheet['pages']
 print(str(len(_dictPages)) + ' page(s)')
-
-_inputStacked = None
 
 
 # Non-trigger functions
@@ -172,7 +171,7 @@ def on_key_press(value, modifiers):
 	#print('MOD ' + str(modifiers))
 	
 	if modifiers == 2 and value == 114: # Ctrl + R: Reload the file
-		print('ORDER RELOAD')
+		_windowMain.nEscPressed = 0
 		_hereRemember = _here
 		_sheet = load_sheet(_path)
 		if 'standard' in _sheet: _windowMain.standard = _sheet['standard']
@@ -181,12 +180,15 @@ def on_key_press(value, modifiers):
 		_here = _hereRemember
 		_windowMain.redraw = True
 	elif value >= 48 and value <= 57: # Number
+		_windowMain.nEscPressed = 0
 		if value != None: _windowMain.inputStacked += chr(value)
 		return pyglet.event.EVENT_HANDLED
 	elif value >= 97 and value <= 122: # Alphabet
+		_windowMain.nEscPressed = 0
 		if value != None: _windowMain.inputStacked += chr(value)
 		return pyglet.event.EVENT_HANDLED
 	elif value == 65293: # Enter: Send the order
+		_windowMain.nEscPressed = 0
 		_order = _windowMain.inputStacked
 		#if _windowMain.inputStacked != None: print('ORDER ' +  _windowMain.inputStacked)
 		if _order in _dictPages: _here = list(_dictPages.keys()).index(_order)
@@ -205,29 +207,39 @@ def on_key_press(value, modifiers):
 		_windowMain.inputStacked = ''
 	elif value == 65307: # Escape: Cancel the order
 		_windowMain.inputStacked = ''
-		#return pyglet.event.EVENT_HANDLED
+		if _windowMain.nEscPressed >= 2: None
+		else:
+			_windowMain.nEscPressed += 1
+			print('SAY ESC pressed ' + str(_windowMain.nEscPressed) + ' time(s)')
+			return pyglet.event.EVENT_HANDLED
 	elif value == 65361: # Left arrow: Previous page
+		_windowMain.nEscPressed = 0
 		_here -= 1
 		if _here < 0: _here = 0
 		_windowMain.toShow = list(_dictPages.values())[_here]
 		_windowMain.redraw = True
 	elif value == 65363: # Right arrow: Next page
+		_windowMain.nEscPressed = 0
 		_here += 1
 		if _here >= len(_dictPages): _here = len(_dictPage) - 1
 		_windowMain.toShow = list(_dictPages.values())[_here]
 		_windowMain.redraw = True
 	elif value == 65360: # Home: First page
+		_windowMain.nEscPressed = 0
 		_here = 0
 		_windowMain.toShow = list(_dictPages.values())[_here]
 		_windowMain.redraw = True
 	elif value == 65367: # End: Last page
+		_windowMain.nEscPressed = 0
 		_here = len(_dictPages) - 1
 		_windowMain.toShow = list(_dictPages.values())[_here]
 		_windowMain.redraw = True
 	elif value == 65474: # F5: Fullscreen ON/OFF
+		_windowMain.nEscPressed = 0
 		_windowMain.set_fullscreen(_windowMain.fullscreen == False)
 		_windowMain.redraw = True
 	else:
+		_windowMain.nEscPressed = 0
 		print('KEY ' + str(value) + ' (' + chr(value) + ')')
 		#return pyglet.event.EVENT_HANDLED
 		
