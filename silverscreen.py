@@ -18,8 +18,7 @@
 
 
 # External module(s)
-from pyglet import pyglet
-from pyjson5 import json5
+import pyglet, json5
 
 # Builtin module(s)
 import sys, os, datetime
@@ -27,7 +26,6 @@ import sys, os, datetime
 
 # In-here routine(s)
 def load_sheet(path):
-	print('LOAD ' + path)
 	_file = open(path, 'r')
 	_sheet = json5.load(_file)
 	_file.close()
@@ -50,13 +48,22 @@ _windowMain.redraw = False
 _windowMain.standard = 0
 _windowMain.inputStacked = ''
 _windowMain.nEscPressed = 0
-_dictPages = None
+_windowMain.listPages = None
+_windowMain.listKeyPages = [None, None, None, None, None, None, None, None, None, None]
 
 # Load session
 if 'standard' in _sheet: _windowMain.standard = _sheet['standard']
 if 'pages' not in _sheet: raise Exception('No pages to show')
-_dictPages = _sheet['pages']
-print(str(len(_dictPages)) + ' page(s)')
+_windowMain.listPages = _sheet['pages']
+
+# Find and register key page(s)
+for _x in _windowMain.listPages:
+	_page = _windowMain.listPages[_x]
+	if "key" in _page:
+		_value = int(_page['key'])
+		if _value >= 0 and _value <= 9: _windowMain.listKeyPages[_value] = _x
+
+#print(str(len(_windowMain.listPages)) + ' page(s)')
 
 
 # Non-trigger functions
@@ -164,21 +171,31 @@ def on_key_press(value, modifiers):
 	global _path
 	global _sheet
 	global _here
-	global _dictPages
 	
 	# Just for debugging
 	#print('KEY ' + str(value) + ' (' + chr(value) + ')')
 	#print('MOD ' + str(modifiers))
 	
-	if modifiers == 2 and value == 114: # Ctrl + R: Reload the file
+	if modifiers == 2: # With Ctrl
+		if value == 114: # Ctrl + R: Reload the file
+			_windowMain.nEscPressed = 0
+			_hereRemember = _here
+			_sheet = load_sheet(_path)
+			if 'standard' in _sheet: _windowMain.standard = _sheet['standard']
+			if 'pages' not in _sheet: raise Exception('No pages to show')
+			_windowMain.listPages = _sheet['pages']
+			_here = _hereRemember
+			_windowMain.redraw = True
+		elif value >= 48 and value <= 57: # Ctrl + (Number): Key page (Number)
+			_keyPage = _windowMain.listKeyPages[value - 48]
+			if _keyPage is not None:
+				_windowMain.nEscPressed = 0
+				_order = _keyPage
+				_here = list(_windowMain.listPages.keys()).index(_order)
+				_windowMain.toShow = list(_windowMain.listPages.values())[_here]
+				_windowMain.redraw = True
+		_windowMain.inputStacked = ''
 		_windowMain.nEscPressed = 0
-		_hereRemember = _here
-		_sheet = load_sheet(_path)
-		if 'standard' in _sheet: _windowMain.standard = _sheet['standard']
-		if 'pages' not in _sheet: raise Exception('No pages to show')
-		_dictPages = _sheet['pages']
-		_here = _hereRemember
-		_windowMain.redraw = True
 	elif value >= 48 and value <= 57: # Number
 		_windowMain.nEscPressed = 0
 		if value != None: _windowMain.inputStacked += chr(value)
@@ -191,18 +208,18 @@ def on_key_press(value, modifiers):
 		_windowMain.nEscPressed = 0
 		_order = _windowMain.inputStacked
 		#if _windowMain.inputStacked != None: print('ORDER ' +  _windowMain.inputStacked)
-		if _order in _dictPages: _here = list(_dictPages.keys()).index(_order)
+		if _order in _windowMain.listPages: _here = list(_windowMain.listPages.keys()).index(_order)
 		else:
 			_here1 = -1
 			try: _here1 = int(_order) - 1
 			except: _here1 = -1
 			
-			if _here1 >= 0 and _here1 < len(_dictPages): _here = _here1
+			if _here1 >= 0 and _here1 < len(_windowMain.listPages): _here = _here1
 			else: print('ERROR NO_SUCH_ORDER')
 			
 		if _here != -1:
 			#print('PAGE ' + str(_here))
-			_windowMain.toShow = list(_dictPages.values())[_here]
+			_windowMain.toShow = list(_windowMain.listPages.values())[_here]
 			_windowMain.redraw = True
 		_windowMain.inputStacked = ''
 	elif value == 65307: # Escape: Cancel the order
@@ -216,23 +233,23 @@ def on_key_press(value, modifiers):
 		_windowMain.nEscPressed = 0
 		_here -= 1
 		if _here < 0: _here = 0
-		_windowMain.toShow = list(_dictPages.values())[_here]
+		_windowMain.toShow = list(_windowMain.listPages.values())[_here]
 		_windowMain.redraw = True
 	elif value == 65363: # Right arrow: Next page
 		_windowMain.nEscPressed = 0
 		_here += 1
-		if _here >= len(_dictPages): _here = len(_dictPage) - 1
-		_windowMain.toShow = list(_dictPages.values())[_here]
+		if _here >= len(_windowMain.listPages): _here = len(_windowMain.listPages) - 1
+		_windowMain.toShow = list(_windowMain.listPages.values())[_here]
 		_windowMain.redraw = True
 	elif value == 65360: # Home: First page
 		_windowMain.nEscPressed = 0
 		_here = 0
-		_windowMain.toShow = list(_dictPages.values())[_here]
+		_windowMain.toShow = list(_windowMain.listPages.values())[_here]
 		_windowMain.redraw = True
 	elif value == 65367: # End: Last page
 		_windowMain.nEscPressed = 0
-		_here = len(_dictPages) - 1
-		_windowMain.toShow = list(_dictPages.values())[_here]
+		_here = len(_windowMain.listPages) - 1
+		_windowMain.toShow = list(_windowMain.listPages.values())[_here]
 		_windowMain.redraw = True
 	elif value == 65474: # F5: Fullscreen ON/OFF
 		_windowMain.nEscPressed = 0

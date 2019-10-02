@@ -3,3 +3,6 @@
 	
 - 0.0.2:
 	- Now you must press Esc 3 times "continuously" to exit the program.
+	
+- 0.0.3:
+	- Now you can go to specific page with Ctrl + (Number). You can define it from 0 to 9, and we will call it 'key page'.

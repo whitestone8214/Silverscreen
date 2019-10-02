@@ -1,6 +1,6 @@
 Silverscreen.py - A lightweight presentation app
 
-Version 0.0.2
+Version 0.0.3
 
 Copyright (C) 2018-2019 Minho Jo <whitestone8214@gmail.com>
 
@@ -8,9 +8,11 @@ License: GNU General Public License version 3 (or any later version) (see licens
 
 Required:
 	- Python 3.x (Tested on 3.7.0; 2.x are not supported)
-	- Modified Pyglet ( git clone https://github.com/whitestone8214/pyglet-1.3.0-mod pyglet )
+	- Modified Pyglet ( git clone https://github.com/whitestone8214/pyglet-1.3.0-mod )
+		- Extract pyglet from pyglet-1.3.0-mod after clone ( mv pyglet-1.3.0-mod/pyglet . )
 		- Original Pyglet ( https://bitbucket.org/pyglet/pyglet/overview ) might work, but it has some limitations (i.e. font size, vertical layout, etc.)
-	- pyjson5 ( git clone https://github.com/dpranke/pyjson5 )
+	- Modified PyJSON5 ( git clone https://github.com/whitestone8214/pyjson5-0.8.5-mod )
+		- Extract json5 from pyjson5-0.8.5-mod after clone ( mv pyjson5-0.8.5-mod/json5 . )
 
 Usage:
 	- silverscreen.py [sheet file]
@@ -19,11 +21,12 @@ Option:
 	(not yet)
 	
 Keys:
-	- Esc: Exit
+	- Esc: Exit (Press 3 times continuously; Other keys will reset the count)
 	- F5: Fullscreen ON/OFF
 	- Ctrl + R: Reload
 	- 123 -> Enter: Go to 123rd slide
 	- name -> Enter: Go to slide named 'name'
+	- Ctrl + (Number): Go to key page (Number) (If defined)
 	- Left arrow: Go to previous page
 	- Right arrow: Go to next page
 	- Home: Go to the first page

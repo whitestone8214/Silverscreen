@@ -14,7 +14,8 @@
 			"type": "note",
 			"background": "example-pictures/sunset.jpg",
 			"title": "본문",
-			"body": "<font color=\"#ff0000\"><b>(본문)</b></font><br>그런 거 없다<br>없다니까"
+			"body": "<font color=\"#ff0000\"><b>(본문)</b></font><br>그런 거 없다<br>없다니까",
+			"key": "7"
 		},
 		
 		// 봉인된 본문
@@ -27,7 +28,7 @@
 		
 		"r1": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": " ", "body": " "},
 		"r2": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": "제목과", "body": "본문"},
-		"r3": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": "제목과", "body": " "},
+		"r3": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": "제목과", "body": " ", "key": "4"},
 		"r4": {"type": "lyrics", "background": "example-pictures/web.jpg", "title": " ", "body": "본문이라고"}
 	}
 }
