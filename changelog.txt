@@ -6,3 +6,7 @@
 	
 - 0.0.3:
 	- Now you can go to specific page with Ctrl + (Number). You can define it from 0 to 9, and we will call it 'key page'.
+	
+- 0.0.4:
+	- Now Silverscreen use Pyglet 1.4.10 with some modifications.
+	- Now all key inputs except Esc will not set _windowMain.redraw as False.

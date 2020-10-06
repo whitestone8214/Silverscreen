@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-	Copyright (C) 2018-2019 Minho Jo <whitestone8214@gmail.com>
+	Copyright (C) 2018-2020 Minho Jo <whitestone8214@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -61,7 +61,9 @@ for _x in _windowMain.listPages:
 	_page = _windowMain.listPages[_x]
 	if "key" in _page:
 		_value = int(_page['key'])
-		if _value >= 0 and _value <= 9: _windowMain.listKeyPages[_value] = _x
+		if _value >= 0 and _value <= 9:
+			print("SAY key_found " + _page['key'])
+			_windowMain.listKeyPages[_value] = _x
 
 #print(str(len(_windowMain.listPages)) + ' page(s)')
 
@@ -135,10 +137,6 @@ def show_page(_type, background, title, body):
 # Triggers
 @_windowMain.event
 def on_draw():
-	if _windowMain.redraw != True:
-		_windowMain.redraw = False
-		return pyglet.event.EVENT_HANDLED
-	
 	_valueType = None
 	try: _valueType = _windowMain.toShow['type']
 	except: None
@@ -173,7 +171,7 @@ def on_key_press(value, modifiers):
 	global _here
 	
 	# Just for debugging
-	#print('KEY ' + str(value) + ' (' + chr(value) + ')')
+	print('KEY ' + str(value) + ' (' + chr(value) + ')')
 	#print('MOD ' + str(modifiers))
 	
 	if modifiers == 2: # With Ctrl
@@ -185,42 +183,41 @@ def on_key_press(value, modifiers):
 			if 'pages' not in _sheet: raise Exception('No pages to show')
 			_windowMain.listPages = _sheet['pages']
 			_here = _hereRemember
-			_windowMain.redraw = True
 		elif value >= 48 and value <= 57: # Ctrl + (Number): Key page (Number)
+			#print("SAY key " + str(value))
 			_keyPage = _windowMain.listKeyPages[value - 48]
 			if _keyPage is not None:
 				_windowMain.nEscPressed = 0
 				_order = _keyPage
 				_here = list(_windowMain.listPages.keys()).index(_order)
 				_windowMain.toShow = list(_windowMain.listPages.values())[_here]
-				_windowMain.redraw = True
 		_windowMain.inputStacked = ''
 		_windowMain.nEscPressed = 0
 	elif value >= 48 and value <= 57: # Number
 		_windowMain.nEscPressed = 0
 		if value != None: _windowMain.inputStacked += chr(value)
-		return pyglet.event.EVENT_HANDLED
 	elif value >= 97 and value <= 122: # Alphabet
 		_windowMain.nEscPressed = 0
 		if value != None: _windowMain.inputStacked += chr(value)
-		return pyglet.event.EVENT_HANDLED
 	elif value == 65293: # Enter: Send the order
 		_windowMain.nEscPressed = 0
 		_order = _windowMain.inputStacked
-		#if _windowMain.inputStacked != None: print('ORDER ' +  _windowMain.inputStacked)
-		if _order in _windowMain.listPages: _here = list(_windowMain.listPages.keys()).index(_order)
+		if _windowMain.inputStacked != None: print('ORDER ' +  _windowMain.inputStacked)
+		if _order in _windowMain.listPages:
+			_here = list(_windowMain.listPages.keys()).index(_order)
+			#print('LOAD_PAGE ' + list(_windowMain.listPages.keys())[_here])
 		else:
 			_here1 = -1
 			try: _here1 = int(_order) - 1
 			except: _here1 = -1
 			
+			#print('LOAD_PAGE ' + list(_windowMain.listPages.keys())[_here1])
 			if _here1 >= 0 and _here1 < len(_windowMain.listPages): _here = _here1
 			else: print('ERROR NO_SUCH_ORDER')
 			
 		if _here != -1:
 			#print('PAGE ' + str(_here))
 			_windowMain.toShow = list(_windowMain.listPages.values())[_here]
-			_windowMain.redraw = True
 		_windowMain.inputStacked = ''
 	elif value == 65307: # Escape: Cancel the order
 		_windowMain.inputStacked = ''
@@ -234,33 +231,25 @@ def on_key_press(value, modifiers):
 		_here -= 1
 		if _here < 0: _here = 0
 		_windowMain.toShow = list(_windowMain.listPages.values())[_here]
-		_windowMain.redraw = True
 	elif value == 65363: # Right arrow: Next page
 		_windowMain.nEscPressed = 0
 		_here += 1
 		if _here >= len(_windowMain.listPages): _here = len(_windowMain.listPages) - 1
 		_windowMain.toShow = list(_windowMain.listPages.values())[_here]
-		_windowMain.redraw = True
 	elif value == 65360: # Home: First page
 		_windowMain.nEscPressed = 0
 		_here = 0
 		_windowMain.toShow = list(_windowMain.listPages.values())[_here]
-		_windowMain.redraw = True
 	elif value == 65367: # End: Last page
 		_windowMain.nEscPressed = 0
 		_here = len(_windowMain.listPages) - 1
 		_windowMain.toShow = list(_windowMain.listPages.values())[_here]
-		_windowMain.redraw = True
 	elif value == 65474: # F5: Fullscreen ON/OFF
 		_windowMain.nEscPressed = 0
 		_windowMain.set_fullscreen(_windowMain.fullscreen == False)
-		_windowMain.redraw = True
 	else:
 		_windowMain.nEscPressed = 0
 		print('KEY ' + str(value) + ' (' + chr(value) + ')')
-		#return pyglet.event.EVENT_HANDLED
-		
-	# It seems on_draw would be triggered automatically after this
 
 
 # Go!
