@@ -10,3 +10,6 @@
 - 0.0.4:
 	- Now Silverscreen use Pyglet 1.4.10 with some modifications.
 	- Now all key inputs except Esc will not set _windowMain.redraw as False.
+	
+- 0.0.5:
+	- Now you can set base screen, window width, window height, X position, Y position at startup. Therefore, now you can use Silverscreen on multi-monitor environment.

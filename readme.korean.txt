@@ -1,8 +1,8 @@
 Silverscreen.py - 경량의 프레젠테이션 프로그램
 
-Version 0.0.4
+Version 0.0.5
 
-Copyright (C) 2018-2020 Minho Jo <whitestone8214@gmail.com>
+Copyright (C) 2018-2021 Minho Jo <whitestone8214@gmail.com>
 
 License: GNU General Public License version 3 (이후 버전 적용 가능) (license.txt 참고)
 
@@ -15,10 +15,13 @@ License: GNU General Public License version 3 (이후 버전 적용 가능) (lic
 		- 클론 후 pyjson5-0.8.5-mod 안의 json5 폴더를 빼냅니다 ( mv pyjson5-0.8.5-mod/json5 . )
 	
 사용법:
-	- silverscreen.py [시트 파일]
-
-옵션:
-	(아직 없습니다)
+	- silverscreen.py [옵션] [시트 파일]
+		- -screen=A: A번 화면을 기준으로 합니다
+		- -width=WIDTH: 창의 가로 크기를 WIDTH로 합니다
+		- -height=HEIGHT: 창의 세로 크기를 HEIGHT로 합니다
+		- -x=X: 창의 가로 위치를 X로 합니다
+		- -y=Y: 창의 세로 위치를 Y로 합니다
+		- -frameless: 창을 타이틀바가 없게 합니다
 	
 키:
 	- Esc: 종료 (3회 연타 필요; 중간에 다른 키를 누르면 카운트 초기화)

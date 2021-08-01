@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-	Copyright (C) 2018-2020 Minho Jo <whitestone8214@gmail.com>
+	Copyright (C) 2018-2021 Minho Jo <whitestone8214@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -32,19 +32,89 @@ def load_sheet(path):
 	return _sheet
 
 
-_path = sys.argv[1] # Path to file to load
+# Sheet
+_path = sys.argv[len(sys.argv) - 1] # Path to file to load
 _sheet = load_sheet(_path) # Sheet generated from file
 _here = -1 # Page number current we are in
 
-_screenMain = pyglet.canvas.get_display().get_default_screen()
-_span1 = (_screenMain.width < _screenMain.height) and (_screenMain.width / 20) or (_screenMain.height / 20)
+# Screen and window
+_listScreens = pyglet.canvas.get_display().get_screens()
+_screen = _listScreens[0] # Display to use as basis
+_widthWindow = (_screen.width / 4) * 3
+_heightWindow = (_screen.height / 4) * 3
+_xWindow = _screen.width / 8
+_yWindow = _screen.height / 8
+_modeFrameless = False
+_span1 = (_screen.width < _screen.height) and (_screen.width / 20) or (_screen.height / 20)
 _span2 = (_span1 / 4) * 3
-_windowMain = pyglet.window.Window()
+
+# Apply the commandline option(s), if any
+for _nthOption in range(0, len(sys.argv) - 1):
+	_option = sys.argv[_nthOption]
+	if _option.startswith("-screen="):
+		_nthScreen = 0
+		try:
+			_nthScreen = int(_option[8:])
+		except:
+			print("[Silverscreen] ERROR: Non-valid number value given with -screen=; Will use screen #0")
+			continue
+		if _nthScreen == -1:
+			_screen = _listScreens[len(_listScreens) - 1]
+		elif _nthScreen >= len(_listScreens):
+			print("[Silverscreen] ERROR: You ordered screen #" + str(_nthScreen) + ", but this system has " + str(len(_listScreens)) + " screen(s); Will use screen #0")
+			continue
+		_screen = _listScreens[_nthScreen]
+	elif _option.startswith("-width="):
+		_widthWindowNew = _widthWindow
+		try:
+			_widthWindowNew = int(_option[7:])
+		except:
+			print("[Silverscreen] ERROR: Non-valid number value given with -width=; Will use 3/4 of screen width")
+			continue
+		if _widthWindowNew == -1:
+			_widthWindowNew = _screen.width
+		elif _widthWindowNew < 1:
+			print("[Silverscreen] ERROR: Window width must be 1px or more; Will use 3/4 of screen width")
+			continue
+		_widthWindow = _widthWindowNew
+	elif _option.startswith("-height="):
+		_heightWindowNew = _heightWindow
+		try:
+			_heightWindowNew = int(_option[8:])
+		except:
+			print("[Silverscreen] ERROR: Non-valid number value given with -height=; Will use 3/4 of screen height")
+			continue
+		if _heightWindowNew == -1:
+			_heightWindowNew = _screen.height
+		elif _heightWindowNew < 1:
+			print("[Silverscreen] ERROR: Window height must be 1px or more; Will use 3/4 of screen height")
+			continue
+		_heightWindow = _heightWindowNew
+	elif _option.startswith("-x="):
+		_xWindowNew = _xWindow
+		try:
+			_xWindowNew = int(_option[3:])
+		except:
+			print("[Silverscreen] ERROR: Non-valid number value given with -x=; Will use 1/8 of screen width")
+			continue
+		_xWindow = _xWindowNew
+	elif _option.startswith("-y="):
+		_yWindowNew = _yWindow
+		try:
+			_yWindowNew = int(_option[3:])
+		except:
+			print("[Silverscreen] ERROR: Non-valid number value given with -y=; Will use 1/8 of screen height")
+			continue
+		_yWindow = _yWindowNew
+	elif _option == "-frameless":
+		_modeFrameless = True
+
+# Main window
+_windowMain = pyglet.window.Window(width = int(_widthWindow), height = int(_heightWindow), caption = "Silverscreen: " + os.path.basename(_path), style = _modeFrameless is True and pyglet.window.BaseWindow.WINDOW_STYLE_BORDERLESS or None)
+_windowMain.set_location(int(_xWindow), int(_yWindow))
 pyglet.gl.glClearColor(1, 1, 1, 1)
 _windowMain.toShow = None
 _windowMain.redraw = False
-
-# Main window
 _windowMain.standard = 0
 _windowMain.inputStacked = ''
 _windowMain.nEscPressed = 0

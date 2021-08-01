@@ -1,8 +1,8 @@
 Silverscreen.py - A lightweight presentation app
 
-Version 0.0.4
+Version 0.0.5
 
-Copyright (C) 2018-2020 Minho Jo <whitestone8214@gmail.com>
+Copyright (C) 2018-2021 Minho Jo <whitestone8214@gmail.com>
 
 License: GNU General Public License version 3 (or any later version) (see license.txt)
 
@@ -15,10 +15,13 @@ Required:
 		- Extract json5 from pyjson5-0.8.5-mod after clone ( mv pyjson5-0.8.5-mod/json5 . )
 
 Usage:
-	- silverscreen.py [sheet file]
-
-Option:
-	(not yet)
+	- silverscreen.py [options] [sheet file]
+		- -screen=SCREEN: Set base screen as SCREEN
+		- -width=WIDTH: Set window width as WIDTH
+		- -height=HEIGHT: Set window height as HEIGHT
+		- -x=X: Set window's horizontal position as X
+		- -y=Y: Set window's vertical position as Y
+		- -frameless: Set window without title bar
 	
 Keys:
 	- Esc: Exit (Press 3 times continuously; Other keys will reset the count)
