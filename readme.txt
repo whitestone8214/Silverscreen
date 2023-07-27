@@ -1,18 +1,20 @@
 Silverscreen.py - A lightweight presentation app
 
-Version 0.0.5
+Version 0.0.6
 
-Copyright (C) 2018-2021 Minho Jo <whitestone8214@gmail.com>
+Copyright (C) 2018-2023 Minho Jo <whitestone8214@gmail.com>
 
-License: GNU General Public License version 3 (or any later version) (see license.txt)
+License:
+	silverscreen.py: GNU General Public License version 3 (or any later version) (see license.gpl3.txt)
+	side.py: MIT License (see license.mit.txt)
 
 Required:
-	- Python (Tested on 3.9.0)
+	- Python (Tested on 3.11.3)
 	- Modified Pyglet ( git clone https://github.com/whitestone8214/pyglet-1.4.10-mod )
-		- Extract pyglet from pyglet-1.4.10-mod after clone ( mv pyglet-1.4.10-mod/pyglet . )
+		- Create symlink to pyglet-1.4.10-mod/pyglet after clone ( ln -s pyglet-1.4.10-mod/pyglet . )
 		- Original Pyglet ( https://github.com/pyglet/pyglet ) might work, but it has some limitations (i.e. font size, vertical layout, etc.)
 	- Modified PyJSON5 ( git clone https://github.com/whitestone8214/pyjson5-0.8.5-mod )
-		- Extract json5 from pyjson5-0.8.5-mod after clone ( mv pyjson5-0.8.5-mod/json5 . )
+		- Create symlink to pyjson5-0.8.5-mod/json5 after clone ( ln -s pyjson5-0.8.5-mod/json5 . )
 
 Usage:
 	- silverscreen.py [options] [sheet file]

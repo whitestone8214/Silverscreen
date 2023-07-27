@@ -8,8 +8,18 @@
 	- Now you can go to specific page with Ctrl + (Number). You can define it from 0 to 9, and we will call it 'key page'.
 	
 - 0.0.4:
-	- Now Silverscreen use Pyglet 1.4.10 with some modifications.
+	- Now Silverscreen will use Pyglet 1.4.10 with some modifications.
 	- Now all key inputs except Esc will not set _windowMain.redraw as False.
 	
 - 0.0.5:
 	- Now you can set base screen, window width, window height, X position, Y position at startup. Therefore, now you can use Silverscreen on multi-monitor environment.
+	
+- 0.0.6:
+	- Changed the way to get span.
+		- Before: (screen width < screen height) ? (screen width / 20) : (screen height / 20)
+		- Now: (screen width < screen height) ? (screen width / 16) : (screen height / 16)
+	- New page type: "p2"
+		- See example.j5 and/or silverscreen.py for details.
+	- New page option: "comment"
+		- See example.j5 and/or silverscreen.py for details.
+	- Marked page types "cover", "note", "lyrics" as deprecated. Use "p2" instead.
